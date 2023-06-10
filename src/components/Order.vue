@@ -3,7 +3,6 @@
 
         <div v-if="currentStep === 1">
             <h2>Customer Information</h2>
-            <!-- Customer Information form -->
             <div class="form-group">
                 <label for="name">Name</label>
                 <input type="text" v-model="customerInfo.name" />
@@ -19,8 +18,66 @@
             <button @click="nextStep">Next</button>
         </div>
 
-
         <div v-if="currentStep === 2">
+            <h2>Shirt Styling</h2>
+            <div class="form-container">
+                <div class="shirt-form-section">
+                    <div class="shirt-form-group">
+                        <label for="shirtSize">Fit</label>
+                        <select v-model="shirtMeasurements.fit">
+                            <option value="slim">Slim Fit</option>
+                            <option value="regulat">Regulat Fit</option>
+                        </select>
+                    </div>
+                    <div class="shirt-form-group">
+                        <label for="shirtSize">Sleves</label>
+                        <select v-model="shirtMeasurements.sleves">
+                            <option value="full">Full Sleves</option>
+                            <option value="half">Half Sleves</option>
+                        </select>
+                    </div>
+                    <div class="shirt-form-group">
+                        <label for="shirtSize">Collar</label>
+                        <select v-model="shirtMeasurements.collar">
+                            <option value="cointed_collar">Pointed Collar</option>
+                            <option value="cutway_collar">Cutway Collar</option>
+                            <option value="bind_collar">PoiBindnted Collar</option>
+                            <option value="bow_collar">BOW Collar</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="shirt-form-section">
+                    <div class="shirt-form-group">
+                        <label for="shirtSize">Pocket</label>
+                        <select v-model="shirtMeasurements.pocket">
+                            <option value="chest">Chest</option>
+                            <option value="inside">Inside</option>
+                            <option value="no">No Pocket</option>
+                        </select>
+                    </div>
+                    <div class="shirt-form-group">
+                        <label for="shirtSize">Cuff</label>
+                        <select v-model="shirtMeasurements.cuff">
+                            <option value="regular">Regular</option>
+                            <option value="double">Double</option>
+                        </select>
+                    </div>
+                    <div class="shirt-form-group">
+                        <label for="shirtSize">Placket</label>
+                        <select v-model="shirtMeasurements.placket">
+                            <option value="cover">Cover Placket</option>
+                            <option value="front">front Placket</option>
+                            <option value="inside">inside Placket</option>
+                        </select>
+                    </div>
+                   
+                </div>
+            </div>
+            <button @click="previousStep">Previous</button>
+            <button @click="nextStep">Next</button>
+        </div>
+
+        <div v-if="currentStep === 3">
             <h2>Shirt Measurements</h2>
             <div class="form-container">
                 <!-- First Section -->
@@ -38,12 +95,12 @@
                         <input type="text" v-model="shirtMeasurements.waist" />
                     </div>
                     <div class="shirt-form-group">
-                        <label for="shirtSize">Length</label>
+                        <label for="shirtSize">Front Length</label>
                         <input type="text" v-model="shirtMeasurements.length" />
                     </div>
                     <div class="shirt-form-group">
                         <label for="shirtSize">Chest</label>
-                        <input type="text" v-model="shirtMeasurements.chest" />
+                        <input type="text" v-model="shirtMeasurements.chest_size" />
                     </div>
                     <!-- Add more fields for the first section as needed -->
                 </div>
@@ -51,20 +108,16 @@
                 <!-- Second Section -->
                 <div class="shirt-form-section">
                     <div class="shirt-form-group">
-                        <label for="shirtLength">Left Sleeve</label>
-                        <input type="number" v-model="shirtMeasurements.left_sleeve" />
+                        <label for="shirtLength">Sleeve</label>
+                        <input type="number" v-model="shirtMeasurements.sleves_length" />
                     </div>
                     <div class="shirt-form-group">
-                        <label for="shirtSleeve">Left Cuff</label>
-                        <input type="number" v-model="shirtMeasurements.left_cuff" />
+                        <label for="shirtSleeve">Cuff</label>
+                        <input type="number" v-model="shirtMeasurements.cuff_size" />
                     </div>
                     <div class="shirt-form-group">
-                        <label for="shirtSleeve">Right sleeve</label>
-                        <input type="number" v-model="shirtMeasurements.right_sleeve" />
-                    </div>
-                    <div class="shirt-form-group">
-                        <label for="shirtLength">Right Cuff</label>
-                        <input type="number" v-model="shirtMeasurements.right_cuff" />
+                        <label for="shirtSleeve">Seat</label>
+                        <input type="number" v-model="shirtMeasurements.seat" />
                     </div>
                     <div class="shirt-form-group">
                         <label for="shirtSleeve">Notes</label>
@@ -73,21 +126,13 @@
                     <!-- Add more fields for the second section as needed -->
                 </div>
             </div>
-
-            <!-- Common fields outside the sections -->
-
-
-
-            <!-- Add more common fields as needed -->
-
-            <!-- Navigation buttons -->
             <button @click="previousStep">Previous</button>
             <button @click="nextStep">Next</button>
         </div>
 
 
 
-        <div v-if="currentStep === 3">
+        <div v-if="currentStep === 4">
             <h2>Pant Measurements</h2>
             <!-- Pant Measurements form -->
             <div class="form-container">
@@ -159,28 +204,33 @@ export default {
                 phone: "",
             },
             shirtMeasurements: {
+                fit: "",
+                sleves: "",
+                collar: "",
+                cuff: "",
+                placket: "",
+
                 length: 0,
                 neck: 0,
                 waist: 0,
-                left_sleeve: 0,
-                right_sleeve: 0,
-                left_cuff: 0,
-                right_cuff: 0,
-                chest: 0,
+                sleves_length: 0,
+                cuff_size: 0,
+                chest_size: 0,
                 shoulder: 0,
                 notes: "",
+                seat: 0,
 
             },
             pantMeasurements: {
                 waist: 0,
                 hip: 0,
-                rise:0,
+                rise: 0,
                 inseam: 0,
-                opening:0,
-                Outseam:0,
-                braise:0,
-                fraise:0,
-                knee:0,
+                opening: 0,
+                Outseam: 0,
+                braise: 0,
+                fraise: 0,
+                knee: 0,
 
             },
         };
@@ -257,10 +307,7 @@ label {
     font-weight: bold;
 }
 
-input[type="text"],
-input[type="number"],
-input[type="email"],
-input[type="tel"] {
+input, select{
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
