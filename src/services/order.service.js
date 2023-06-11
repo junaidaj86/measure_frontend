@@ -4,7 +4,6 @@ const API_URL = 'http://localhost:8080/api/order';
 
 class OrderService {
   createOrder(order) {
-    console.log("00000 "+ JSON.stringify(order));
     return axios
       .post(API_URL, {
         customer: order.customer,
@@ -13,6 +12,16 @@ class OrderService {
       })
       .then(response => {
         console.log("response = " + response);
+        return response.data;
+        
+      })
+      .catch((error) => console.log(error));
+  }
+
+  fetchAllOrder(){
+    return axios
+      .get(API_URL)
+      .then(response => {
         return response.data;
         
       })

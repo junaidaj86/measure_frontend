@@ -1,35 +1,162 @@
 <template>
   <div class="container">
     <header class="jumbotron">
-      <h3>{{ content }}</h3>
+      <h3>Order Details</h3>
+      <table class="order-table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Customer Name</th>
+            <th>Contact Number</th>
+            <th>Status</th>
+            <th>Download</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            class="order-item"
+            v-for="orderData in orderDetails"
+            :key="orderData.order.id"
+          >
+            <td>{{ orderData.order.id }}</td>
+            <td>{{ orderData.customer.name }}</td>
+            <td>{{ orderData.customer.phone }}</td>
+            <td>
+              <button
+                class="btn-view-details"
+                @click="toggleDetails(orderData.order.id)"
+              >
+                assigned
+              </button>
+            </td>
+            <td>
+              <button
+                class="btn-view-details"
+                @click="toggleDetails(orderData.order.id)"
+              >
+                View Details
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div v-if="selectedOrderId" class="order-details">
+        <div class="customer-info">
+          <p><strong>Customer Name:</strong> {{ selectedOrder.customer.name }}</p>
+          <p><strong>Email:</strong> {{ selectedOrder.customer.email }}</p>
+          <p><strong>Phone:</strong> {{ selectedOrder.customer.phone }}</p>
+        </div>
+        <div class="shirt-info">
+          <h5>Shirt Details</h5>
+          <p><strong>Length:</strong> {{ selectedOrder.shirt.length }}</p>
+          <!-- Display more shirt properties as needed -->
+        </div>
+        <div class="pant-info">
+          <h5>Pant Details</h5>
+          <p><strong>Waist:</strong> {{ selectedOrder.pant.waist }}</p>
+          <!-- Display more pant properties as needed -->
+        </div>
+      </div>
     </header>
   </div>
 </template>
 
 <script>
-import UserService from "../services/user.service";
+import OrderService from "../services/order.service";
 
 export default {
   name: "Home",
   data() {
     return {
-      content: "",
+      orderDetails: [],
+      selectedOrderId: null,
     };
   },
   mounted() {
-    UserService.getPublicContent().then(
+    OrderService.fetchAllOrder().then(
       (response) => {
-        this.content = response.data;
+        console.log(JSON.stringify(response));
+        this.orderDetails = response;
       },
       (error) => {
-        this.content =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
+        console.log(error);
       }
     );
   },
+  computed: {
+    selectedOrder() {
+      return this.orderDetails.find((orderData) => orderData.order.id === this.selectedOrderId);
+    },
+  },
+  methods: {
+    toggleDetails(orderId) {
+      this.selectedOrderId = (this.selectedOrderId === orderId) ? null : orderId;
+    },
+  },
 };
 </script>
+
+
+<style scoped>
+.container {
+ 
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.jumbotron {
+  padding: 20px;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+button{
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  height: 30px;
+}
+
+
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    color: #333;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    text-align: left;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+
+  table th {
+  background-color: #6c7ae0;
+  color: #fff;
+  font-weight: bold;
+  padding: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #ccc;
+}
+
+
+table tr:hover td {
+  background-color:  #ECF2FF;
+}
+
+table td {
+  background-color: #fff;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  font-weight: bold;
+}
+</style>
