@@ -255,7 +255,7 @@ export default {
                     console.log("ggggggg" + JSON.stringify(response));
                     this.message = response.message;
                     this.loading = false;
-                    this.$router.push("/customer");
+                    this.$router.push("/home");
                 },
                 (error) => {
                     this.content =
