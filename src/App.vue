@@ -14,12 +14,7 @@
         <li v-if="showModeratorBoard" class="nav-item">
           <router-link to="/book" class="nav-link">Book Order</router-link>
         </li>
-        <li v-if="showModeratorBoard" class="nav-item">
-          <router-link to="/mod" class="nav-link">View Order</router-link>
-        </li>
-        <li v-if="showModeratorBoard" class="nav-item">
-          <router-link to="/mod" class="nav-link">View details</router-link>
-        </li>
+        
         <li v-if="showModeratorBoard" class="nav-item">
           <router-link to="/customer" class="nav-link">Create Customer</router-link>
         </li>

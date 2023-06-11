@@ -26,15 +26,15 @@
                 class="btn-view-details"
                 @click="toggleDetails(orderData.order.id)"
               >
-                assigned
+                View
               </button>
             </td>
             <td>
               <button
-                class="btn-view-details"
-                @click="toggleDetails(orderData.order.id)"
+              class="btn-download-pdf"
+              @click="downloadPDF(orderData)"
               >
-                View Details
+                Download
               </button>
             </td>
           </tr>
@@ -63,7 +63,7 @@
 
 <script>
 import OrderService from "../services/order.service";
-
+import jsPDF from "jspdf";
 export default {
   name: "Home",
   data() {
@@ -91,6 +91,29 @@ export default {
   methods: {
     toggleDetails(orderId) {
       this.selectedOrderId = (this.selectedOrderId === orderId) ? null : orderId;
+    },
+    
+    downloadPDF(orderData) {
+      // Create a new jsPDF instance
+      const doc = new jsPDF();
+
+      // Generate the PDF content
+      doc.setFontSize(18);
+      doc.text("Order Details", 10, 10);
+      doc.setFontSize(12);
+      doc.text(`Order ID: ${orderData.order.id}`, 10, 20);
+      doc.text(`Customer Name: ${orderData.customer.name}`, 10, 30);
+      doc.text(`Email: ${orderData.customer.email}`, 10, 40);
+      doc.text(`Phone: ${orderData.customer.phone}`, 10, 50);
+      doc.text("Shirt Details", 10, 60);
+      doc.text(`Length: ${orderData.shirt.length}`, 10, 70);
+      // Add more shirt details as needed
+      doc.text("Pant Details", 10, 80);
+      doc.text(`Waist: ${orderData.pant.waist}`, 10, 90);
+      // Add more pant details as needed
+
+      // Save the PDF file
+      doc.save("order_details.pdf");
     },
   },
 };
