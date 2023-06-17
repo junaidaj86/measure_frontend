@@ -1,7 +1,7 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-const API_URL = 'http://localhost:8080/api/customer';
+const API_URL = 'http://localhost:8080/api/user';
 
 class UserService {
   createCustomer(customer) {
@@ -11,7 +11,7 @@ class UserService {
         phone: customer.phone,
         address: customer.phone,
         email: customer.email
-      })
+      },{ headers: authHeader() })
       .then(response => {
         console.log("response = " + response);
         return response.data;

@@ -6,9 +6,10 @@ import Register from "./components/Register.vue";
 const Profile = () => import("./components/Profile.vue")
 const BoardAdmin = () => import("./components/BoardAdmin.vue")
 const BoardModerator = () => import("./components/BoardModerator.vue")
-const BoardUser = () => import("./components/BoardUser.vue")
 const Customer = () => import("./components/Customer.vue")
 const Order = () => import("./components/Order.vue")
+const Shop = () => import("./components/Shop.vue")
+
 const routes = [
   {
     path: "/",
@@ -19,12 +20,15 @@ const routes = [
     path: "/home",
     component: Home,
   },
+
+  
   {
     path: "/login",
     component: Login,
   },
   {
     path: "/register",
+    name: "register",
     component: Register,
   },
   {
@@ -39,7 +43,7 @@ const routes = [
     component: BoardAdmin,
   },
   {
-    path: "/customer",
+    path: "/create/customer",
     // lazy-loaded
     component: Customer,
   },
@@ -50,15 +54,14 @@ const routes = [
     component: BoardModerator,
   },
   {
-    path: "/user",
-    name: "user",
-    // lazy-loaded
-    component: BoardUser,
-  },
-  {
     path: "/book",
     name: "book",
     component: Order,
+  },
+  {
+    path: "/create/shop",
+    name: "shop",
+    component: Shop,
   }
 ];
 

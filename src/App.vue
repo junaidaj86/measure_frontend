@@ -5,27 +5,28 @@
       <div class="navbar-nav mr-auto">
         <li class="nav-item">
           <router-link to="/home" class="nav-link">
-            <font-awesome-icon icon="home" /> Home
+            <font-awesome-icon icon="home" /> Admin Home
           </router-link>
         </li>
-        <li v-if="showAdminBoard" class="nav-item">
-          <router-link to="/admin" class="nav-link">Book Order</router-link>
-        </li>
-        <li v-if="showModeratorBoard" class="nav-item">
-          <router-link to="/book" class="nav-link">Book Order</router-link>
+
+        <li v-if="showUserBoard" class="nav-item">
+          <router-link to="/book" class="nav-link">Create Order</router-link>
         </li>
         
-        <li v-if="showModeratorBoard" class="nav-item">
-          <router-link to="/customer" class="nav-link">Create Customer</router-link>
+        <li v-if="showUserBoard" class="nav-item">
+          <router-link to="/create/customer" class="nav-link">Create Customer</router-link>
         </li>
         <li class="nav-item">
-          <router-link v-if="currentUser" to="/user" class="nav-link">User</router-link>
+          <router-link v-if="showAdminBoard" to="/register" class="nav-link">Create User</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link v-if="showAdminBoard" to="/create/shop" class="nav-link">Create Shop</router-link>
         </li>
       </div>
 
       <div v-if="!currentUser" class="navbar-nav ml-auto">
         <li class="nav-item">
-          <router-link to="/register" class="nav-link">
+          <router-link to="/admin/register" class="nav-link">
             <font-awesome-icon icon="user-plus" /> Sign Up
           </router-link>
         </li>
@@ -61,18 +62,21 @@
 export default {
   computed: {
     currentUser() {
+      console.log("=== "+ JSON.stringify(this.$store.state.auth.user, undefined,2))
       return this.$store.state.auth.user;
     },
     showAdminBoard() {
+      console.log("=== "+ JSON.stringify(this.currentUser, undefined,2))
       if (this.currentUser && this.currentUser['roles']) {
         return this.currentUser['roles'].includes('ROLE_ADMIN');
       }
 
       return false;
     },
-    showModeratorBoard() {
+    showUserBoard() {
+      console.log("=== "+ JSON.stringify(this.currentUser, undefined,2))
       if (this.currentUser && this.currentUser['roles']) {
-        return this.currentUser['roles'].includes('ROLE_MODERATOR');
+        return this.currentUser['roles'].includes('ROLE_USER');
       }
 
       return false;

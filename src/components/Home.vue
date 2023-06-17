@@ -17,6 +17,7 @@
             class="order-item"
             v-for="orderData in orderDetails"
             :key="orderData.order.id"
+            @click="toggleDetails(orderData.order.id)"
           >
             <td>{{ orderData.order.id }}</td>
             <td>{{ orderData.customer.name }}</td>
@@ -31,8 +32,8 @@
             </td>
             <td>
               <button
-              class="btn-download-pdf"
-              @click="downloadPDF(orderData)"
+                class="btn-download-pdf"
+                @click="downloadPDF(orderData)"
               >
                 Download
               </button>
@@ -85,31 +86,41 @@ export default {
   },
   computed: {
     selectedOrder() {
-      return this.orderDetails.find((orderData) => orderData.order.id === this.selectedOrderId);
+      return this.orderDetails.find(
+        (orderData) => orderData.order.id === this.selectedOrderId
+      );
     },
   },
   methods: {
     toggleDetails(orderId) {
-      this.selectedOrderId = (this.selectedOrderId === orderId) ? null : orderId;
+      this.selectedOrderId = this.selectedOrderId === orderId ? null : orderId;
     },
-    
+
     downloadPDF(orderData) {
       // Create a new jsPDF instance
       const doc = new jsPDF();
 
-      // Generate the PDF content
+      // Set initial y position for the first section
+      let yPos = 20;
+
+      // Generate the PDF content for customer information section
       doc.setFontSize(18);
-      doc.text("Order Details", 10, 10);
+      doc.text("Customer Information", 10, yPos);
       doc.setFontSize(12);
-      doc.text(`Order ID: ${orderData.order.id}`, 10, 20);
-      doc.text(`Customer Name: ${orderData.customer.name}`, 10, 30);
-      doc.text(`Email: ${orderData.customer.email}`, 10, 40);
-      doc.text(`Phone: ${orderData.customer.phone}`, 10, 50);
-      doc.text("Shirt Details", 10, 60);
-      doc.text(`Length: ${orderData.shirt.length}`, 10, 70);
+      doc.text(`Customer Name: ${orderData.customer.name}`, 10, yPos + 10);
+      doc.text(`Email: ${orderData.customer.email}`, 10, yPos + 20);
+      doc.text(`Phone: ${orderData.customer.phone}`, 10, yPos + 30);
+
+      // Update the y position for the next section
+      yPos += 60;
+
+      // Generate the PDF content for pant and shirt details section
+      doc.setFontSize(18);
+      doc.text("Pant and Shirt Details", 10, yPos);
+      doc.setFontSize(12);
+      doc.text(`Shirt Length: ${orderData.shirt.length}`, 10, yPos + 10);
       // Add more shirt details as needed
-      doc.text("Pant Details", 10, 80);
-      doc.text(`Waist: ${orderData.pant.waist}`, 10, 90);
+      doc.text(`Pant Waist: ${orderData.pant.waist}`, 10, yPos + 20);
       // Add more pant details as needed
 
       // Save the PDF file
@@ -119,10 +130,8 @@ export default {
 };
 </script>
 
-
 <style scoped>
 .container {
- 
   margin: 0 auto;
   padding: 20px;
 }
@@ -133,7 +142,7 @@ export default {
   background-color: #fff;
 }
 
-button{
+button {
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -143,24 +152,22 @@ button{
   height: 30px;
 }
 
-
-
 table {
-    border-collapse: collapse;
-    width: 100%;
-    color: #333;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    text-align: left;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    margin: auto;
-    margin-top: 50px;
-    margin-bottom: 50px;
-  }
+  border-collapse: collapse;
+  width: 100%;
+  color: #333;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  text-align: left;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
 
-  table th {
+table th {
   background-color: #6c7ae0;
   color: #fff;
   font-weight: bold;
@@ -171,9 +178,8 @@ table {
   border-bottom: 1px solid #ccc;
 }
 
-
 table tr:hover td {
-  background-color:  #ECF2FF;
+  background-color: #ecf2ff;
 }
 
 table td {

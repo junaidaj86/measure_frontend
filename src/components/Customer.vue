@@ -81,7 +81,6 @@ export default {
     },
    
     mounted() {
-        console.log("1234567890")
         if (this.loggedIn) {
             this.$router.push("/profile");
         }
