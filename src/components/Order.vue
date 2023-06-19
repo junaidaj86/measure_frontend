@@ -15,7 +15,7 @@
                 <label for="phone">Phone Number</label>
                 <input type="tel" v-model="customerInfo.phone" />
             </div>
-            <button @click="nextStep">Next</button>
+            <button class="btn" @click="nextStep">Next</button>
         </div>
 
         <div v-if="currentStep === 2">
@@ -73,8 +73,8 @@
                    
                 </div>
             </div>
-            <button @click="previousStep">Previous</button>
-            <button @click="nextStep">Next</button>
+            <button class="btn" @click="previousStep">Previous</button>
+            <button class="btn" @click="nextStep">Next</button>
         </div>
 
         <div v-if="currentStep === 3">
@@ -126,8 +126,8 @@
                     <!-- Add more fields for the second section as needed -->
                 </div>
             </div>
-            <button @click="previousStep">Previous</button>
-            <button @click="nextStep">Next</button>
+            <button class="btn" @click="previousStep">Previous</button>
+            <button  class="btn" @click="nextStep">Next</button>
         </div>
 
 
@@ -186,8 +186,8 @@
                     <!-- Add more fields for the second section as needed -->
                 </div>
             </div>
-            <button @click="previousStep">Previous</button>
-            <button @click="submitForm">Submit</button>
+            <button class="btn" @click="previousStep">Previous</button>
+            <button class="btn" @click="submitForm">Submit</button>
         </div>
     </div>
 </template>
@@ -252,7 +252,6 @@ export default {
             }
             OrderService.createOrder(requestObj).then(
                 (response) => {
-                    console.log("ggggggg" + JSON.stringify(response));
                     this.message = response.message;
                     this.loading = false;
                     this.$router.push("/home");
@@ -318,8 +317,6 @@ input, select{
 button {
     padding: 10px 20px;
     margin: 10px;
-    background-color: #4caf50;
-    color: #fff;
     border: none;
     border-radius: 4px;
     font-size: 16px;
@@ -327,8 +324,14 @@ button {
     margin-top: 10px;
 }
 
-button:hover {
-    background-color: #45a049;
+.btn {
+  background-color: #635985;
+  color: white;
+}
+
+.btn:hover {
+  background-color: #393053;
+  color: white;
 }
 </style>
   

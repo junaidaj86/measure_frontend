@@ -15,29 +15,19 @@
           </tr>
         </thead>
         <tbody>
-          <tr
-            class="order-item"
-            v-for="orderData in orderDetails"
-            :key="orderData.order.id"
-            @click="toggleDetails(orderData.order.id)"
-          >
+          <tr class="order-item" v-for="orderData in orderDetails" :key="orderData.order.id"
+            @click="toggleDetails(orderData.order.id)">
             <td>{{ orderData.order.id }}</td>
             <td>{{ orderData.customer.name }}</td>
             <td>{{ orderData.customer.phone }}</td>
             <td>{{ orderData.order.createDate }}</td>
             <td>{{ orderData.order.deliverDate }}</td>
-            <td><button
-                class="btn-view-details"
-                @click="changeStatus(orderData.order.id)"
-              >
-              {{ orderData.order.orderStatus }}
+            <td><button class="btn btn-view-details" @click="changeStatus(orderData.order.id)">
+                {{ orderData.order.orderStatus }}
               </button>
             </td>
             <td>
-              <button
-                class="btn-download-pdf"
-                @click="downloadPDF(orderData)"
-              >
+              <button class="btn btn-download-pdf" @click="downloadPDF(orderData)">
                 Download
               </button>
             </td>
@@ -46,25 +36,61 @@
       </table>
       <teleport to="body">
         <div v-if="selectedOrderId" class="modal-wrapper">
-          <div class="modal-overlay"></div>
-          <div class="modal-content">
-            <div class="customer-info">
-              <p><strong>Customer Name:</strong> {{ selectedOrder.customer.name }}</p>
-              <p><strong>Email:</strong> {{ selectedOrder.customer.email }}</p>
-              <p><strong>Phone:</strong> {{ selectedOrder.customer.phone }}</p>
+          <div class="modal" :class="{ 'is-active': selectedOrderId }">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+              <div class="customer-info">
+                <h2>Customer Information</h2>
+                <p><strong>Name:</strong> {{ selectedOrder.customer.name }}</p>
+                <p><strong>Email:</strong> {{ selectedOrder.customer.email }}</p>
+                <p><strong>Phone:</strong> {{ selectedOrder.customer.phone }}</p>
+              </div>
+              <div class="order-info">
+                <h2>Order Information</h2>
+                <p><strong>Order Id:</strong> {{ selectedOrder.order.orderId }}</p>
+                <p><strong>Created Date</strong> {{ selectedOrder.order.createDate }}</p>
+                <p><strong>Delivery Date:</strong> {{ selectedOrder.order.deliverDate }}</p>
+              </div>
+              <div class="measurements">
+                <div class="shirt-measurements">
+                  <h2>Shirt Measurements</h2>
+                  <ul class="measurements-grid">
+                    <li><strong>Fit:</strong> {{ selectedOrder.shirt.length }}</li>
+                    <li><strong>Sleeves:</strong> {{ selectedOrder.shirt.length }}</li>
+                    <li><strong>Collar:</strong> {{ selectedOrder.shirt.length }}</li>
+                    <li><strong>Cuff:</strong> {{ selectedOrder.shirt.length }}</li>
+                    <li><strong>Placket:</strong> {{ selectedOrder.shirt.length }}</li>
+                    <li><strong>Length:</strong> {{ selectedOrder.shirt.length }}</li>
+                    <li><strong>Neck:</strong> {{ selectedOrder.shirt.length }}</li>
+                    <li><strong>Waist:</strong> {{ selectedOrder.shirt.length }}</li>
+                    <li><strong>Sleeve Length:</strong> {{ selectedOrder.shirt.length }}</li>
+                    <li><strong>Cuff Size:</strong> {{ selectedOrder.shirt.length }}</li>
+                    <li><strong>Chest Size:</strong> {{ selectedOrder.shirt.length }}</li>
+                    <li><strong>Shoulder:</strong> {{ selectedOrder.shirt.length }}</li>
+                    <li><strong>Seat:</strong> {{ selectedOrder.shirt.length }}</li>
+                    <li><strong>Notes:</strong> {{ selectedOrder.shirt.length }}</li>
+                  </ul>
+                </div>
+                <!--<div class="pant-measurements">
+          <h2>Pant Measurements</h2>
+          <p><strong>Waist:</strong> {{ selectedOrder.pant.length }}</p>
+          <p><strong>Hip:</strong> {{ selectedOrder.shirt.length }}</p>
+          <p><strong>Rise:</strong> {{ selectedOrder.shirt.length }}</p>
+          <p><strong>Inseam:</strong> {{ selectedOrder.shirt.length }}</p>
+          <p><strong>Opening:</strong> {{ selectedOrder.shirt.length }}</p>
+          <p><strong>Outseam:</strong> {{ selectedOrder.shirt.length }}</p>
+          <p><strong>Braise:</strong> {{ selectedOrder.shirt.length }}</p>
+          <p><strong>Fraise:</strong> {{ selectedOrder.shirt.length }}</p>
+          <p><strong>Knee:</strong> {{ selectedOrder.shirt.length }}</p>
+        </div>-->
+                <div>
+                  <button class="center btn" @click="closeModal">Close</button>
+                </div>
+
+              </div>
+
             </div>
-            <div class="shirt-info">
-              <h5>Shirt Details</h5>
-              <p><strong>Length:</strong> {{ selectedOrder.shirt.length }}</p>
-              <!-- Display more shirt properties as needed -->
-            </div>
-            <div class="pant-info">
-              <h5>Pant Details</h5>
-              <p><strong>Waist:</strong> {{ selectedOrder.pant.waist }}</p>
-              <!-- Display more pant properties as needed -->
-            </div>
-            
-            <button @click="closeModal">Close Modal</button>
+
           </div>
         </div>
       </teleport>
@@ -105,7 +131,7 @@ export default {
     toggleDetails(orderId) {
       this.selectedOrderId = this.selectedOrderId === orderId ? null : orderId;
     },
-    closeModal(){
+    closeModal() {
       this.selectedOrderId = false;
     },
 
@@ -139,21 +165,22 @@ export default {
       // Save the PDF file
       doc.save("order_details.pdf");
     },
-    changeStatus(orderId){
+    changeStatus(orderId) {
       OrderService.assignOrder(orderId).then(
-                (response) => {
-                    console.log("ggggggg" + JSON.stringify(response));
-                    this.$router.push("/home");
-                },
-                (error) => {
-                    this.content =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
-                }
-            );
+        (response) => {
+          console.log(response);
+          //this.$router.push("/home");
+          this.orderDetails = response;
+        },
+        (error) => {
+          this.content =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
     }
   },
 };
@@ -172,13 +199,20 @@ export default {
 }
 
 button {
-  background-color: #007bff;
-  color: #fff;
   border: none;
   padding: 5px 10px;
   border-radius: 3px;
   cursor: pointer;
   height: 30px;
+}
+.btn {
+  background-color: #635985;
+  color: white;
+}
+
+.btn:hover {
+  background-color: #393053;
+  color: white;
 }
 
 table {
@@ -197,7 +231,7 @@ table {
 }
 
 table th {
-  background-color: #6c7ae0;
+  background-color: #443C68;
   color: #fff;
   font-weight: bold;
   padding: 10px;
@@ -217,9 +251,11 @@ table td {
   border-bottom: 1px solid #ccc;
   font-weight: bold;
 }
+
 span {
   padding-left: 5px;
 }
+
 .modal-wrapper {
   position: fixed;
   top: 0;
@@ -246,4 +282,102 @@ span {
   border-radius: 5px;
   max-width: 500px;
 }
+
+
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.modal.is-active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.modal-close:hover {
+  opacity: 1;
+}
+
+/* Section Styles */
+.customer-info,
+.order-info,
+.measurements {
+  margin-bottom: 20px;
+}
+
+.customer-info h2,
+.order-info h2,
+.measurements h2 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.customer-info p,
+.order-info p,
+.measurements p {
+  margin-bottom: 5px;
+}
+
+.customer-info strong,
+.order-info strong,
+.measurements strong {
+  font-weight: bold;
+}
+
+.center {
+  align-items: center;
+}
+
+
+.measurements-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.measurements-grid li {
+  list-style-type: none;
+}
+
+/* Adjust the styles as per your design preferences */
 </style>

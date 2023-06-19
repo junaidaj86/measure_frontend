@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand navbar-dark bg-dark">
+    <nav class="navbar navbar-expand navbar-dark ">
       <a href="/" class="navbar-brand">MIZAJ</a>
       <div class="navbar-nav mr-auto">
         <li class="nav-item">
@@ -91,5 +91,9 @@ export default {
 };
 </script>
 <style scoped>
+
+.navbar {
+  background-color: #18122B;
+}
 
 </style>

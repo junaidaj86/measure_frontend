@@ -4,18 +4,16 @@
             <img id="profile-img" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" class="profile-img-card" />
             <Form @submit="handleShopRequest" :validation-schema="schema">
                 <div v-if="!successful">
-                    <div class="shirt-form-group">
+                    <div class="form-group">
                         <label for="name">Shop Name</label>
                         <input type="text" v-model="shop.name" />
                     </div>
-                    <div class="shirt-form-group">
+                    <div class="form-group">
                         <label for="address">Address</label>
                         <input type="text" v-model="shop.address" />
                     </div>
-
-
                     <div class="form-group">
-                        <button class="btn btn-primary btn-block" :disabled="loading">
+                        <button class="btn btn-block" :disabled="loading">
                             <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                             Create Shop
                         </button>
@@ -114,6 +112,16 @@ label {
 
 .error-feedback {
     color: red;
+}
+
+.btn {
+  background-color: #635985;
+  color: white;
+}
+
+.btn:hover {
+  background-color: #393053;
+  color: white;
 }
 </style>
   
