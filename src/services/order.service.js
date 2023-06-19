@@ -30,6 +30,19 @@ class OrderService {
       .catch((error) => console.log(error));
   }
 
+  assignOrder(orderId){
+    return axios
+      .put(API_URL+"?orderid="+orderId, {
+        
+      },{ headers: authHeader() })
+      .then(response => {
+        console.log("response = " + response);
+        return response.data;
+
+      })
+      .catch((error) => console.log(error));
+  }
+
 
 }
 

@@ -8,6 +8,8 @@
             <th>Order ID</th>
             <th>Customer Name</th>
             <th>Contact Number</th>
+            <th>Order Date</th>
+            <th>Deliver Date</th>
             <th>Status</th>
             <th>Download</th>
           </tr>
@@ -22,12 +24,13 @@
             <td>{{ orderData.order.id }}</td>
             <td>{{ orderData.customer.name }}</td>
             <td>{{ orderData.customer.phone }}</td>
-            <td>
-              <button
+            <td>{{ orderData.order.createDate }}</td>
+            <td>{{ orderData.order.deliverDate }}</td>
+            <td><button
                 class="btn-view-details"
-                @click="toggleDetails(orderData.order.id)"
+                @click="changeStatus(orderData.order.id)"
               >
-                View
+              {{ orderData.order.orderStatus }}
               </button>
             </td>
             <td>
@@ -41,23 +44,30 @@
           </tr>
         </tbody>
       </table>
-      <div v-if="selectedOrderId" class="order-details">
-        <div class="customer-info">
-          <p><strong>Customer Name:</strong> {{ selectedOrder.customer.name }}</p>
-          <p><strong>Email:</strong> {{ selectedOrder.customer.email }}</p>
-          <p><strong>Phone:</strong> {{ selectedOrder.customer.phone }}</p>
+      <teleport to="body">
+        <div v-if="selectedOrderId" class="modal-wrapper">
+          <div class="modal-overlay"></div>
+          <div class="modal-content">
+            <div class="customer-info">
+              <p><strong>Customer Name:</strong> {{ selectedOrder.customer.name }}</p>
+              <p><strong>Email:</strong> {{ selectedOrder.customer.email }}</p>
+              <p><strong>Phone:</strong> {{ selectedOrder.customer.phone }}</p>
+            </div>
+            <div class="shirt-info">
+              <h5>Shirt Details</h5>
+              <p><strong>Length:</strong> {{ selectedOrder.shirt.length }}</p>
+              <!-- Display more shirt properties as needed -->
+            </div>
+            <div class="pant-info">
+              <h5>Pant Details</h5>
+              <p><strong>Waist:</strong> {{ selectedOrder.pant.waist }}</p>
+              <!-- Display more pant properties as needed -->
+            </div>
+            
+            <button @click="closeModal">Close Modal</button>
+          </div>
         </div>
-        <div class="shirt-info">
-          <h5>Shirt Details</h5>
-          <p><strong>Length:</strong> {{ selectedOrder.shirt.length }}</p>
-          <!-- Display more shirt properties as needed -->
-        </div>
-        <div class="pant-info">
-          <h5>Pant Details</h5>
-          <p><strong>Waist:</strong> {{ selectedOrder.pant.waist }}</p>
-          <!-- Display more pant properties as needed -->
-        </div>
-      </div>
+      </teleport>
     </header>
   </div>
 </template>
@@ -70,7 +80,7 @@ export default {
   data() {
     return {
       orderDetails: [],
-      selectedOrderId: null,
+      selectedOrderId: false,
     };
   },
   mounted() {
@@ -94,6 +104,9 @@ export default {
   methods: {
     toggleDetails(orderId) {
       this.selectedOrderId = this.selectedOrderId === orderId ? null : orderId;
+    },
+    closeModal(){
+      this.selectedOrderId = false;
     },
 
     downloadPDF(orderData) {
@@ -126,6 +139,22 @@ export default {
       // Save the PDF file
       doc.save("order_details.pdf");
     },
+    changeStatus(orderId){
+      OrderService.assignOrder(orderId).then(
+                (response) => {
+                    console.log("ggggggg" + JSON.stringify(response));
+                    this.$router.push("/home");
+                },
+                (error) => {
+                    this.content =
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+                }
+            );
+    }
   },
 };
 </script>
@@ -187,5 +216,34 @@ table td {
   padding: 10px;
   border-bottom: 1px solid #ccc;
   font-weight: bold;
+}
+span {
+  padding-left: 5px;
+}
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 500px;
 }
 </style>
