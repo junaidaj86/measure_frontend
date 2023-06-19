@@ -73,8 +73,8 @@
                    
                 </div>
             </div>
-            <button class="btn" @click="previousStep">Previous</button>
-            <button class="btn" @click="nextStep">Next</button>
+            <button class="btn btn-side" @click="previousStep">Previous</button>
+            <button class="btn btn-side" @click="nextStep">Next</button>
         </div>
 
         <div v-if="currentStep === 3">
@@ -126,8 +126,8 @@
                     <!-- Add more fields for the second section as needed -->
                 </div>
             </div>
-            <button class="btn" @click="previousStep">Previous</button>
-            <button  class="btn" @click="nextStep">Next</button>
+            <button class="btn btn-side" @click="previousStep">Previous</button>
+            <button  class="btn btn-side" @click="nextStep">Next</button>
         </div>
 
 
@@ -186,8 +186,8 @@
                     <!-- Add more fields for the second section as needed -->
                 </div>
             </div>
-            <button class="btn" @click="previousStep">Previous</button>
-            <button class="btn" @click="submitForm">Submit</button>
+            <button class="btn btn-side" @click="previousStep">Previous</button>
+            <button class="btn btn-side" @click="submitForm">Submit</button>
         </div>
     </div>
 </template>
@@ -270,68 +270,4 @@ export default {
 };
 </script>
   
-<style scoped>
-template {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-.form-container {
-    max-width: 600px;
-    margin: 0 auto;
-    margin-top: 80px;
-    display: flex;
-    justify-content: center;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-
-.shirt-form-section {
-    flex: 1;
-    gap: 20px;
-}
-
-.shirt-form-group {
-    margin-bottom: 10px;
-    size: 50%;
-    padding-right: 20px;
-}
-
-
-label {
-    font-weight: bold;
-}
-
-input, select{
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-button {
-    padding: 10px 20px;
-    margin: 10px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-.btn {
-  background-color: #635985;
-  color: white;
-}
-
-.btn:hover {
-  background-color: #393053;
-  color: white;
-}
-</style>
   

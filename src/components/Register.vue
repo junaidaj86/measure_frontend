@@ -25,6 +25,33 @@
           </div>
 
           <div class="form-group">
+            <label for="shop">Shop</label>
+            <select name="shop" v-model="selectedShop" class="form-control">
+              <option value="">Select a shop</option>
+              <option
+                v-for="shop in shopDetails"
+                :key="shop.id"
+                :value="shop.id"
+              >
+                {{ shop.name }}
+              </option>
+            </select>
+            <ErrorMessage name="shop" class="error-feedback" />
+          </div>
+
+          
+
+          <div class="form-group">
+            <label for="role">Role</label>
+            <select name="role" v-model="selectedRole" class="form-control">
+              <option value="">Select a Role</option>
+              <option :key="1" :value="ADMIN">Admin</option>
+              <option :key="2" :value="USER">User</option>
+            </select>
+            <ErrorMessage name="role" class="error-feedback" />
+          </div>
+
+          <div class="form-group">
             <button class="btn btn-block" :disabled="loading">
               <span
                 v-show="loading"
@@ -49,6 +76,7 @@
 
 <script>
 import { Form, Field, ErrorMessage } from "vee-validate";
+import ShopService from "../services/shop.service";
 import * as yup from "yup";
 
 export default {
@@ -75,13 +103,24 @@ export default {
         .required("Password is required!")
         .min(6, "Must be at least 6 characters!")
         .max(40, "Must be maximum 40 characters!"),
+      shop: yup
+        .string()
+        .required("Password is required!")
+        .min(6, "Must be at least 6 characters!")
+        .max(40, "Must be maximum 40 characters!"),
+      
     });
 
     return {
+      shopDetails: [],
       successful: false,
       loading: false,
       message: "",
       schema,
+      selectedRole: null,
+      ADMIN: 1,
+      USER: 2,
+      selectedShop: null,
     };
   },
   computed: {
@@ -90,19 +129,28 @@ export default {
     },
   },
   mounted() {
-    if (this.loggedIn) {
-      console.log("test");
-    }
+    ShopService.fetchAllShop().then(
+      (response) => {
+        console.log(JSON.stringify(response));
+        this.shopDetails = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   },
   methods: {
     handleRegister(user) {
       this.message = "";
       this.successful = false;
       this.loading = true;
-
+      user.shop = this.selectedShop;
+      user.role = this.selectedRole;
+      console.log("000 "+JSON.stringify(user, undefined,2))
       this.$store.dispatch("auth/register", user).then(
         (data) => {
-          this.message = data.message;
+          console.log("======"+data);
+          this.message = data;
           this.successful = true;
           this.loading = false;
         },
@@ -122,51 +170,3 @@ export default {
 };
 </script>
 
-<style scoped>
-label {
-  display: block;
-  margin-top: 10px;
-}
-
-.card-container.card {
-  max-width: 350px !important;
-  padding: 40px 40px;
-}
-
-.card {
-  background-color: #f7f7f7;
-  padding: 20px 25px 30px;
-  margin: 0 auto 25px;
-  margin-top: 50px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
-  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-}
-
-.profile-img-card {
-  width: 96px;
-  height: 96px;
-  margin: 0 auto 10px;
-  display: block;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
-  border-radius: 50%;
-}
-
-.error-feedback {
-  color: red;
-}
-
-.btn {
-  background-color: #635985;
-  color: white;
-}
-
-.btn:hover {
-  background-color: #393053;
-  color: white;
-}
-</style>

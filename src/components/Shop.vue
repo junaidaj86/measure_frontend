@@ -50,11 +50,8 @@ export default {
                 name: this.shop.name,
                 address: this.shop.address
             }
-            alert("hold" + JSON.stringify(requestObj, undefined,2));
             ShopService.createShop(requestObj).then(
                 (response) => {
-                    console.log("ggggggg" + JSON.stringify(response));
-                    alert("adayyyyd")
                     this.message = response.message;
                     this.loading = false;
                   
@@ -68,60 +65,11 @@ export default {
                         //error.toString();
                         this.loading = false;
                         console.log("wertyuiowerthjkl" + error)
-                        alert("adad")
+                        
                 }
             );
         },
     },
 };
 </script>
-  
-<style scoped>
-label {
-    display: block;
-    margin-top: 10px;
-}
-
-.card-container.card {
-    max-width: 350px !important;
-    padding: 40px 40px;
-}
-
-.card {
-    background-color: #f7f7f7;
-    padding: 20px 25px 30px;
-    margin: 0 auto 25px;
-    margin-top: 50px;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
-    border-radius: 2px;
-    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-}
-
-.profile-img-card {
-    width: 96px;
-    height: 96px;
-    margin: 0 auto 10px;
-    display: block;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-    border-radius: 50%;
-}
-
-.error-feedback {
-    color: red;
-}
-
-.btn {
-  background-color: #635985;
-  color: white;
-}
-
-.btn:hover {
-  background-color: #393053;
-  color: white;
-}
-</style>
   

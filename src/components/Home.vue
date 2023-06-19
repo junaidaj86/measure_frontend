@@ -11,23 +11,28 @@
             <th>Order Date</th>
             <th>Deliver Date</th>
             <th>Status</th>
+            <th>Details</th>
             <th>Download</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="order-item" v-for="orderData in orderDetails" :key="orderData.order.id"
-            @click="toggleDetails(orderData.order.id)">
+          <tr class="order-item" v-for="orderData in orderDetails" :key="orderData.order.id">
             <td>{{ orderData.order.id }}</td>
             <td>{{ orderData.customer.name }}</td>
             <td>{{ orderData.customer.phone }}</td>
             <td>{{ orderData.order.createDate }}</td>
             <td>{{ orderData.order.deliverDate }}</td>
-            <td><button class="btn btn-view-details" @click="changeStatus(orderData.order.id)">
+            <td><button class="btn btn:hover" @click="changeStatus(orderData.order.id)">
                 {{ orderData.order.orderStatus }}
               </button>
             </td>
             <td>
-              <button class="btn btn-download-pdf" @click="downloadPDF(orderData)">
+              <button class="btn btn:hover" @click="toggleDetails(orderData.order.id, $event)">
+                View
+              </button>
+            </td>
+            <td>
+              <button class="btn btn:hover" @click="downloadPDF(orderData)">
                 Download
               </button>
             </td>
@@ -128,7 +133,8 @@ export default {
     },
   },
   methods: {
-    toggleDetails(orderId) {
+    toggleDetails(orderId, event) {
+      event.stopPropagation();
       this.selectedOrderId = this.selectedOrderId === orderId ? null : orderId;
     },
     closeModal() {
@@ -205,15 +211,7 @@ button {
   cursor: pointer;
   height: 30px;
 }
-.btn {
-  background-color: #635985;
-  color: white;
-}
 
-.btn:hover {
-  background-color: #393053;
-  color: white;
-}
 
 table {
   border-collapse: collapse;

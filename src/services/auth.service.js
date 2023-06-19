@@ -1,4 +1,5 @@
 import axios from 'axios';
+import authHeader from './auth-header';
 
 const API_URL = 'http://localhost:8080/api/';
 
@@ -23,11 +24,20 @@ class AuthService {
   }
 
   register(user) {
+    let role;
+    if (user.role === 1) {
+      role = "ROLE_ADMIN";
+    } else {
+      role = "ROLE_USER";
+    }
+
     return axios.post(API_URL + 'admin/register', {
-      username: user.username,
+      name: user.username,
       email: user.email,
-      password: user.password
-    });
+      password: user.password,
+      roles: role,
+      shopId: user.shop
+    }, { headers: authHeader() });
   }
 }
 

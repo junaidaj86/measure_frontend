@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav class="navbar navbar-expand navbar-dark ">
-      <a href="/" class="navbar-brand">MIZAJ</a>
+      <a href="/" class="navbar-brand logo">MIZAJ</a>
       <div class="navbar-nav mr-auto">
         <li class="nav-item">
           <router-link to="/home" class="nav-link">
@@ -90,10 +90,4 @@ export default {
   }
 };
 </script>
-<style scoped>
 
-.navbar {
-  background-color: #18122B;
-}
-
-</style>
