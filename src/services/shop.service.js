@@ -5,7 +5,6 @@ const API_URL = 'http://localhost:8080/api/admin/shop';
 
 class ShopService {
   createShop(shop) {
-    alert("============"+ JSON.stringify(shop, undefined,2));
     return axios
       .post(API_URL,{
         name: shop.name,
