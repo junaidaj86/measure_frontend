@@ -5,10 +5,11 @@ const API_URL = 'http://localhost:8080/api/admin/shop';
 
 class ShopService {
   createShop(shop) {
-    console.log("============"+ JSON.stringify(shop, undefined,2));
+    alert("============"+ JSON.stringify(shop, undefined,2));
     return axios
       .post(API_URL,{
-        shop: shop
+        name: shop.name,
+        Address: shop.Address
       },{ headers: authHeader() })
       .then(response => {
         console.log("response = " + response);

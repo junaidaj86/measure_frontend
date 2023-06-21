@@ -9,8 +9,15 @@
           </router-link>
         </li>
 
-        <li v-if="showUserBoard" class="nav-item">
-          <router-link to="/book" class="nav-link">Create Order</router-link>
+        <li v-if="showUserBoard" class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Create Order
+          </a>
+          <div class="dropdown-menu">
+            <router-link to="/order/shirt" class="dropdown-item">Shirt</router-link>
+            <router-link to="/order/pant" class="dropdown-item">Pant</router-link>
+            <router-link to="/order/shirt" class="dropdown-item">Jacket</router-link>
+          </div>
         </li>
         
         <li v-if="showUserBoard" class="nav-item">

@@ -48,7 +48,7 @@ export default {
             console.log("Form submitted!");
             let requestObj = {
                 name: this.shop.name,
-                address: this.shop.address
+                Address: this.shop.address
             }
             ShopService.createShop(requestObj).then(
                 (response) => {

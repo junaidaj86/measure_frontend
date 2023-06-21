@@ -7,7 +7,8 @@ const Profile = () => import("./components/Profile.vue")
 const BoardAdmin = () => import("./components/BoardAdmin.vue")
 const BoardModerator = () => import("./components/BoardModerator.vue")
 const Customer = () => import("./components/Customer.vue")
-const Order = () => import("./components/Order.vue")
+const Shirt = () => import("./components/Shirt.vue")
+const Pant = () => import("./components/Pant.vue")
 const Shop = () => import("./components/Shop.vue")
 
 const routes = [
@@ -55,9 +56,14 @@ const routes = [
     component: BoardModerator,
   },
   {
-    path: "/book",
-    name: "book",
-    component: Order,
+    path: "/order/shirt",
+    name: "shirt",
+    component: Shirt,
+  },
+  {
+    path: "/order/pant",
+    name: "pant",
+    component: Pant,
   },
   {
     path: "/create/shop",
